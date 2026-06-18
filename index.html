@@ -6,122 +6,175 @@
 <title>威力彩 A／B／C 選一組 — 本期獎金與號碼統計</title>
 <style>
   :root{
-    --bg:#0f1420; --card:#1a2235; --card2:#222c44; --line:#2d3950;
-    --txt:#e8edf6; --sub:#8a97b1;
-    --accent:#ffc83d; --accent2:#ff6b6b; --blue:#4d8dff;
-    --ok:#2ecc71; --warn:#ff5c7a;
-    --ga:#ffc83d; --gb:#4d8dff; --gc:#2ecc71;
+    --ink:#2c2a44; --ink2:#6c6890; --line:#ece6f4;
+    --card:#ffffff;
+    --gold:#f7a823; --coral:#ff4d7e; --green:#16b277; --blue:#3b82f6; --purple:#8b5cf6;
+    --A:#f59e0b; --B:#3b82f6; --C:#10b981;
+    --shadow:0 8px 28px rgba(120,100,170,.14);
+    --shadow-sm:0 4px 14px rgba(120,100,170,.10);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg);color:var(--txt);
+    background:linear-gradient(160deg,#fff5f8 0%,#f4f1ff 50%,#eefbff 100%);
+    background-attachment:fixed;
+    color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
-    line-height:1.6;font-size:15px;
+    line-height:1.65;font-size:16px;
   }
-  .wrap{max-width:920px;margin:0 auto;padding:0 16px 60px;}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px 70px;}
+
+  /* 彩色漸層彩頭 */
   header{
-    text-align:center;padding:34px 16px 26px;
-    background:linear-gradient(160deg,#1c2740,#141b2c);
-    border-bottom:1px solid var(--line);
+    text-align:center;color:#fff;border-radius:0 0 28px 28px;
+    padding:40px 20px 34px;
+    background:linear-gradient(125deg,#ffab2e 0%,#ff5e9c 52%,#9b6bff 100%);
+    box-shadow:0 10px 30px rgba(255,94,156,.30);
   }
-  header h1{font-size:22px;margin:0 0 6px;letter-spacing:.5px;}
-  header .sub{color:var(--sub);font-size:13px;}
-  header .date{color:var(--sub);font-size:12px;margin-top:8px;}
+  header h1{font-size:27px;margin:0 0 8px;letter-spacing:.5px;font-weight:800;text-shadow:0 2px 8px rgba(120,40,90,.25);}
+  header .sub{font-size:14px;opacity:.95;}
+  header .pill{
+    display:inline-block;margin-top:14px;background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:5px 16px;font-size:12.5px;backdrop-filter:blur(4px);
+  }
 
   .notice{
-    background:rgba(255,200,61,.10);border:1px solid rgba(255,200,61,.35);
-    border-radius:12px;padding:13px 16px;margin-top:18px;font-size:13.5px;color:#ffe6a0;line-height:1.6;
+    background:linear-gradient(120deg,#fff8e6,#fff0f5);
+    border:1.5px solid #ffe0a3;border-radius:16px;padding:15px 18px;margin-top:24px;
+    font-size:14px;color:#8a5a12;line-height:1.65;box-shadow:var(--shadow-sm);
   }
-  .notice b{color:var(--accent);}
+  .notice b{color:#e0780a;}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:18px;}
-  .card h2{font-size:16px;margin:0 0 14px;display:flex;align-items:center;gap:8px;}
-  .card h2 .em{font-size:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+    padding:24px;margin-top:22px;box-shadow:var(--shadow);
+  }
+  .card h2{
+    font-size:18px;margin:0 0 18px;display:flex;align-items:center;gap:10px;font-weight:800;
+  }
+  .card h2 .chip{
+    width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex:0 0 auto;
+  }
+  .chip.c-blue{background:#e8f0ff;} .chip.c-gold{background:#fff3d6;}
+  .chip.c-green{background:#e3f9ef;} .chip.c-purple{background:#f0e9ff;} .chip.c-rose{background:#ffe9ef;}
 
   /* 三組卡片 */
-  .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
-  .group{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;border-top:4px solid var(--line);}
-  .group.A{border-top-color:var(--ga);}
-  .group.B{border-top-color:var(--gb);}
-  .group.C{border-top-color:var(--gc);}
-  .group .gname{font-size:17px;font-weight:800;margin-bottom:2px;}
-  .group.A .gname{color:var(--ga);} .group.B .gname{color:var(--gb);} .group.C .gname{color:var(--gc);}
-  .group .gtix{font-size:12px;color:var(--sub);margin-bottom:12px;}
-  .balls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
-  .ball{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:0 0 auto;}
-  .ball.z1{background:var(--accent);color:#3a2a00;}
-  .ball.z2{background:var(--accent2);color:#fff;}
-  .ball.sm{width:27px;height:27px;font-size:11px;}
-  .zlabel{font-size:11px;color:var(--sub);min-width:40px;font-weight:700;}
-  .zrow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:8px;}
+  .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+  .group{
+    border:1px solid var(--line);border-radius:18px;padding:18px;
+    background:#fff;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+  }
+  .group::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;}
+  .group.A::before{background:linear-gradient(90deg,#fbbf24,#f59e0b);}
+  .group.B::before{background:linear-gradient(90deg,#60a5fa,#3b82f6);}
+  .group.C::before{background:linear-gradient(90deg,#34d399,#10b981);}
+  .group .gname{font-size:19px;font-weight:800;margin:6px 0 2px;}
+  .group.A .gname{color:var(--A);} .group.B .gname{color:var(--B);} .group.C .gname{color:var(--C);}
+  .group .gtix{font-size:12.5px;color:var(--ink2);margin-bottom:14px;}
+  .balls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+  .ball{
+    width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:800;flex:0 0 auto;
+  }
+  .ball.z1{background:radial-gradient(circle at 32% 28%,#ffe588,#f7a823 72%);color:#6a4500;box-shadow:0 3px 8px rgba(247,168,35,.45);}
+  .ball.z2{background:radial-gradient(circle at 32% 28%,#ff9fbb,#ff4d7e 72%);color:#fff;box-shadow:0 3px 8px rgba(255,77,126,.45);}
+  .ball.sm{width:29px;height:29px;font-size:11.5px;}
+  .zlabel{font-size:11px;color:var(--ink2);min-width:42px;font-weight:700;}
+  .zrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:9px;}
 
   /* 獎金表 */
-  table{width:100%;border-collapse:collapse;font-size:14px;}
-  th,td{padding:11px 8px;text-align:left;border-bottom:1px solid var(--line);}
-  th{color:var(--sub);font-size:12px;font-weight:600;}
-  td.amt{text-align:right;font-weight:700;color:var(--ok);font-variant-numeric:tabular-nums;}
-  tr.jackpot td{color:var(--accent);font-weight:700;}
-  tr.jackpot td.amt{color:var(--accent);}
-  .foot-note{font-size:12px;color:var(--sub);margin:12px 0 0;line-height:1.6;}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;overflow:hidden;border-radius:12px;}
+  th,td{padding:13px 12px;text-align:left;}
+  thead th{background:#f6f2ff;color:var(--ink2);font-size:12.5px;font-weight:700;}
+  tbody tr{border-top:1px solid var(--line);}
+  tbody tr:nth-child(even){background:#faf9ff;}
+  td.amt,th.amt{text-align:right;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;}
+  tr.jackpot{background:linear-gradient(90deg,#fff6da,#fff)!important;}
+  tr.jackpot td{color:#d98512;font-weight:800;font-size:15.5px;}
+  .foot-note{font-size:12.5px;color:var(--ink2);margin:14px 2px 0;line-height:1.65;}
 
   /* 73.3% 解釋 */
-  .explain{font-size:14px;line-height:1.7;}
-  .explain p{margin:0 0 10px;}
-  .formula{background:#0c111c;border:1px solid var(--line);border-radius:8px;padding:12px 14px;
-    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;color:#cfe0ff;margin:12px 0;text-align:center;overflow-x:auto;}
-  .formula .big{color:var(--ok);font-size:16px;font-weight:700;}
-  .step{display:flex;gap:10px;margin-bottom:10px;}
-  .step .no{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--card2);border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);}
+  .step{display:flex;gap:13px;margin-bottom:14px;align-items:flex-start;}
+  .step .no{
+    flex:0 0 auto;width:28px;height:28px;border-radius:50%;
+    background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;
+    box-shadow:0 3px 8px rgba(139,92,246,.35);
+  }
+  .step b{color:var(--purple);}
+  .formula{
+    background:linear-gradient(120deg,#eef4ff,#f3eeff);
+    border:1.5px solid #d9e3ff;border-radius:14px;padding:16px 18px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;color:#3a3a6a;
+    margin:14px 0;text-align:center;overflow-x:auto;line-height:1.7;
+  }
+  .formula .big{color:var(--green);font-size:20px;font-weight:800;}
 
-  /* 號碼統計 */
-  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-bottom:14px;}
-  .legend span{display:inline-flex;align-items:center;gap:5px;}
-  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;}
-  .dot.hot{background:var(--accent);} .dot.mid{background:#6b7896;} .dot.cold{background:#39435c;}
-  .freq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:7px;}
-  .freq{display:flex;flex-direction:column;align-items:center;justify-content:center;
-    background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 4px;}
-  .freq .fn{font-size:15px;font-weight:700;}
-  .freq .fc{font-size:10px;color:var(--sub);margin-top:2px;}
-  .freq.f0{opacity:.45;}
-  .freq.f2 .fn{color:#ffe6a0;}
-  .freq.f3{border-color:rgba(255,200,61,.45);} .freq.f3 .fn{color:var(--accent);}
-  .freq.f4{border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,200,61,.25);} .freq.f4 .fn{color:var(--accent);}
-  .z2freq{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
-  .z2freq .freq{min-width:50px;}
-  .subhead{font-size:13px;color:var(--sub);font-weight:700;margin:18px 0 8px;}
+  /* 號碼統計 熱度圖 */
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink2);margin-bottom:16px;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:16px;height:16px;border-radius:5px;display:inline-block;border:1px solid var(--line);}
+  .swatch.hot{background:linear-gradient(135deg,#ffb020,#ff7a45);border:none;}
+  .swatch.mid{background:#ffe7c2;}
+  .swatch.cold{background:#eef1f6;}
+  .subhead{font-size:13.5px;color:var(--ink2);font-weight:800;margin:20px 0 10px;}
+  .freq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;}
+  .freq{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    border-radius:12px;padding:9px 4px;border:1px solid var(--line);background:#fff;
+  }
+  .freq .fn{font-size:16px;font-weight:800;color:var(--ink);}
+  .freq .fc{font-size:10px;color:var(--ink2);margin-top:2px;}
+  .freq.f0{background:#eef1f6;border-color:#e4e9f1;}
+  .freq.f0 .fn{color:#aeb6c6;}
+  .freq.f1{background:#fff8e8;border-color:#ffeec4;}
+  .freq.f2{background:#ffe9c4;border-color:#ffd58a;}
+  .freq.f3{background:#ffcf7c;border-color:#ffba47;}
+  .freq.f3 .fn,.freq.f3 .fc{color:#7a4a00;}
+  .freq.f4{background:linear-gradient(135deg,#ffb020,#ff6a3d);border-color:#ff8a2e;box-shadow:0 5px 14px rgba(255,130,40,.40);}
+  .freq.f4 .fn{color:#fff;} .freq.f4 .fc{color:rgba(255,255,255,.9);}
+  .z2freq{display:flex;flex-wrap:wrap;gap:9px;}
+  .z2freq .freq{min-width:54px;}
 
-  .warn-card{background:rgba(255,92,122,.08);border:1px solid rgba(255,92,122,.3);}
-  .warn-card h2{color:var(--warn);}
-  .warn-list{margin:0;padding-left:18px;}
-  .warn-list li{margin-bottom:10px;}
-  .warn-list b{color:#ffb3c0;}
+  /* 提醒 */
+  .warn-card{background:linear-gradient(120deg,#fff0f3,#ffe9f0);border:1.5px solid #ffc9d6;}
+  .warn-card h2{color:#d6275a;}
+  .warn-list{margin:0;padding-left:20px;}
+  .warn-list li{margin-bottom:11px;}
+  .warn-list b{color:#d6275a;}
 
-  .src{font-size:12px;color:var(--sub);margin-top:18px;text-align:center;line-height:1.8;}
-  .src a{color:var(--blue);text-decoration:none;}
-  .disclaimer{font-size:11.5px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.6;border-top:1px solid var(--line);padding-top:14px;}
+  .src{font-size:12.5px;color:var(--ink2);margin-top:24px;text-align:center;line-height:1.9;}
+  .src a{color:var(--blue);text-decoration:none;font-weight:600;}
+  .disclaimer{font-size:12px;color:var(--ink2);text-align:center;margin-top:16px;line-height:1.7;
+    border-top:1px solid var(--line);padding-top:16px;}
+
+  @media (max-width:520px){
+    body{font-size:15px;}
+    header h1{font-size:23px;}
+    .card{padding:18px;}
+    .formula .big{font-size:17px;}
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🎯 威力彩 A／B／C 三選一</h1>
+  <h1>🎰 威力彩 A／B／C 三選一</h1>
   <div class="sub">每組 = 第一區 7 碼 × 第二區全包 ＝ 56 注</div>
-  <div class="date">本期：2026/06/18 開獎</div>
+  <div class="pill">🗓️ 本期 2026/06/18 開獎</div>
 </header>
 
 <div class="wrap">
 
   <div class="notice">
     📌 A／B／C 三組都是「7 碼＋第二區全包＝56 注」的相同結構，<b>中獎機率完全相同</b>，
-    挑哪一組都一樣——<b>選哪組純粹是分人／喜好，不會改變中獎結果</b>，放心挑一組就好。
+    挑哪一組都一樣——<b>選哪組純粹是分人／喜好，不會改變中獎結果</b>，放心挑一組就好！
   </div>
 
   <!-- 三組 -->
   <div class="card">
-    <h2><span class="em">🎱</span>三組號碼（請挑一組）</h2>
+    <h2><span class="chip c-gold">🎱</span>三組號碼（請挑一組）</h2>
     <div class="groups">
       <div class="group A">
         <div class="gname">A 組</div>
@@ -166,15 +219,17 @@
 
   <!-- 本期獎金 -->
   <div class="card">
-    <h2><span class="em">💰</span>本期各獎項中獎金額（每組相同）</h2>
+    <h2><span class="chip c-green">💰</span>本期各獎項中獎金額（每組相同）</h2>
     <table>
-      <tr><th>對中方式</th><th>獎項</th><th class="amt">本期中獎金額</th></tr>
-      <tr class="jackpot"><td>第一區6＋二區</td><td>頭獎</td><td class="amt">10.5 億起 ※</td></tr>
-      <tr><td>第一區5＋二區</td><td>參獎</td><td class="amt">NT$150,000</td></tr>
-      <tr><td>第一區4＋二區</td><td>伍獎</td><td class="amt">NT$4,000</td></tr>
-      <tr><td>第一區3＋二區</td><td>柒獎</td><td class="amt">NT$400</td></tr>
-      <tr><td>第一區2＋二區</td><td>捌獎</td><td class="amt">NT$200</td></tr>
-      <tr><td>第一區1＋二區</td><td>普獎</td><td class="amt">NT$100</td></tr>
+      <thead><tr><th>對中方式</th><th>獎項</th><th class="amt">本期中獎金額</th></tr></thead>
+      <tbody>
+        <tr class="jackpot"><td>第一區6＋二區</td><td>頭獎</td><td class="amt">10.5 億起 ※</td></tr>
+        <tr><td>第一區5＋二區</td><td>參獎</td><td class="amt">NT$150,000</td></tr>
+        <tr><td>第一區4＋二區</td><td>伍獎</td><td class="amt">NT$4,000</td></tr>
+        <tr><td>第一區3＋二區</td><td>柒獎</td><td class="amt">NT$400</td></tr>
+        <tr><td>第一區2＋二區</td><td>捌獎</td><td class="amt">NT$200</td></tr>
+        <tr><td>第一區1＋二區</td><td>普獎</td><td class="amt">NT$100</td></tr>
+      </tbody>
     </table>
     <p class="foot-note">
       ※ 頭獎為累積彩金、非固定。上一期（6/15）累積 10.5 億且未開出，本期續累積，<b>確切金額以台灣彩券官方本期公告為準</b>（頭獎保底 2 億）。<br>
@@ -184,32 +239,26 @@
 
   <!-- 73.3% 怎麼算 -->
   <div class="card">
-    <h2><span class="em">🧮</span>「至少中一獎 73.3%」是怎麼算出來的？</h2>
-    <div class="explain">
-      <div class="step"><span class="no">1</span><div>每組<b>第二區全包 8 碼</b>，所以第二區<b>一定對中</b>。最小的「普獎」只要第一區對中 1 個號碼即可。</div></div>
-      <div class="step"><span class="no">2</span><div>因此「有沒有中獎」＝「你選的 <b>7 個第一區號碼</b>，有沒有<b>至少 1 個</b>被開出來」。</div></div>
-      <div class="step"><span class="no">3</span><div>反過來算比較快——<b>完全槓龜</b>＝開出的 6 個號碼<b>全部落在你沒選的 31 個號碼裡</b>：</div></div>
-      <div class="formula">
-        P(完全沒中) = C(31,6) ÷ C(38,6) = 736,281 ÷ 2,760,681 ≈ 26.67%
-      </div>
-      <div class="step"><span class="no">4</span><div>所以至少中一獎的機率：</div></div>
-      <div class="formula">
-        P(至少中一獎) = 1 − 26.67% = <span class="big">73.33%</span>
-      </div>
-      <p class="foot-note" style="margin-top:14px;">
-        說明：C(38,6) 是「從 38 個號碼選 6 個」的所有組合數＝2,760,681；C(31,6) 是「6 個全在你沒選的 31 號內」的組合數＝736,281。<br>
-        ⚠️ 這 73.3% 是「中<b>任一獎</b>（含最小的普獎 100 元）」的機率，其中約 9 成是 200／100 元的小獎；<b>頭獎機率仍只有約 1/394,383</b>，極低。
-      </p>
-    </div>
+    <h2><span class="chip c-purple">🧮</span>「至少中一獎 73.3%」是怎麼算出來的？</h2>
+    <div class="step"><span class="no">1</span><div>每組<b>第二區全包 8 碼</b>，所以第二區<b>一定對中</b>。最小的「普獎」只要第一區對中 1 個號碼即可。</div></div>
+    <div class="step"><span class="no">2</span><div>因此「有沒有中獎」＝「你選的 <b>7 個第一區號碼</b>，有沒有<b>至少 1 個</b>被開出來」。</div></div>
+    <div class="step"><span class="no">3</span><div>反過來算比較快——<b>完全槓龜</b>＝開出的 6 個號碼<b>全部落在你沒選的 31 個號碼裡</b>：</div></div>
+    <div class="formula">P(完全沒中) = C(31,6) ÷ C(38,6) = 736,281 ÷ 2,760,681 ≈ 26.67%</div>
+    <div class="step"><span class="no">4</span><div>所以至少中一獎的機率：</div></div>
+    <div class="formula">P(至少中一獎) = 1 − 26.67% = <span class="big">73.33%</span></div>
+    <p class="foot-note">
+      說明：C(38,6) 是「從 38 個號碼選 6 個」的所有組合數＝2,760,681；C(31,6) 是「6 個全在你沒選的 31 號內」的組合數＝736,281。<br>
+      ⚠️ 這 73.3% 是「中<b>任一獎</b>（含最小的普獎 100 元）」的機率，其中約 9 成是 200／100 元的小獎；<b>頭獎機率仍只有約 1/394,383</b>，極低。
+    </p>
   </div>
 
   <!-- 號碼統計 -->
   <div class="card">
-    <h2><span class="em">📈</span>近十期號碼出現次數</h2>
+    <h2><span class="chip c-blue">📈</span>近十期號碼出現次數</h2>
     <div class="legend">
-      <span><i class="dot hot"></i>熱門（3～4 次）</span>
-      <span><i class="dot mid"></i>普通（1～2 次）</span>
-      <span><i class="dot cold"></i>未開出（0 次）</span>
+      <span><i class="swatch hot"></i>熱門（3～4 次）</span>
+      <span><i class="swatch mid"></i>普通（1～2 次）</span>
+      <span><i class="swatch cold"></i>未開出（0 次）</span>
     </div>
     <div class="subhead">第一區（01–38）</div>
     <div class="freq-grid">
@@ -273,7 +322,7 @@
 
   <!-- 誠實提醒 -->
   <div class="card warn-card">
-    <h2><span class="em">⚠️</span>務必理解的三件事</h2>
+    <h2><span class="chip c-rose">⚠️</span>務必理解的三件事</h2>
     <ul class="warn-list">
       <li><b>選 A／B／C 不影響中獎</b>：三組結構相同，挑哪組只是分人，不是哪組比較會中。</li>
       <li><b>「73% 中獎」會誤導</b>：其中約 9 成是捌獎（200 元）／普獎（100 元）這類小獎，常常拿回的比投注的少。頭獎仍是約 1/394,383，極低。</li>
