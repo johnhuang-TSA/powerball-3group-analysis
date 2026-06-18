@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>威力彩三組包牌 — 中獎機率評估分析</title>
+<title>威力彩 A／B／C 選一組 — 中獎機率與本期獎金</title>
 <style>
   :root{
     --bg:#0f1420; --card:#1a2235; --card2:#222c44; --line:#2d3950;
     --txt:#e8edf6; --sub:#8a97b1;
     --accent:#ffc83d; --accent2:#ff6b6b; --blue:#4d8dff;
     --ok:#2ecc71; --warn:#ff5c7a;
+    --ga:#ffc83d; --gb:#4d8dff; --gc:#2ecc71;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -18,61 +19,65 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
     line-height:1.6;font-size:15px;
   }
-  .wrap{max-width:880px;margin:0 auto;padding:0 16px 60px;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 16px 60px;}
   header{
     text-align:center;padding:34px 16px 26px;
     background:linear-gradient(160deg,#1c2740,#141b2c);
     border-bottom:1px solid var(--line);
   }
-  header h1{font-size:23px;margin:0 0 6px;letter-spacing:.5px;}
+  header h1{font-size:22px;margin:0 0 6px;letter-spacing:.5px;}
   header .sub{color:var(--sub);font-size:13px;}
   header .date{color:var(--sub);font-size:12px;margin-top:8px;}
+
+  .notice{
+    background:rgba(255,200,61,.10);border:1px solid rgba(255,200,61,.35);
+    border-radius:12px;padding:13px 16px;margin-top:18px;font-size:13.5px;color:#ffe6a0;line-height:1.6;
+  }
+  .notice b{color:var(--accent);}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:18px;}
   .card h2{font-size:16px;margin:0 0 14px;display:flex;align-items:center;gap:8px;}
   .card h2 .em{font-size:20px;}
 
-  /* 三組號碼 */
-  .group{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;}
-  .group:last-child{margin-bottom:0;}
-  .group .gname{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;}
-  .balls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
-  .ball{
-    width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-size:15px;font-weight:700;flex:0 0 auto;
-  }
+  /* 三組卡片 */
+  .groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
+  .group{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;border-top:4px solid var(--line);}
+  .group.A{border-top-color:var(--ga);}
+  .group.B{border-top-color:var(--gb);}
+  .group.C{border-top-color:var(--gc);}
+  .group .gname{font-size:17px;font-weight:800;margin-bottom:2px;}
+  .group.A .gname{color:var(--ga);} .group.B .gname{color:var(--gb);} .group.C .gname{color:var(--gc);}
+  .group .gtix{font-size:12px;color:var(--sub);margin-bottom:12px;}
+  .balls{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+  .ball{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:0 0 auto;}
   .ball.z1{background:var(--accent);color:#3a2a00;}
   .ball.z2{background:var(--accent2);color:#fff;}
-  .ball.sm{width:30px;height:30px;font-size:12px;}
-  .sep{color:var(--sub);font-size:18px;padding:0 2px;}
-  .zlabel{font-size:11px;color:var(--sub);min-width:42px;font-weight:700;}
-  .zrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;}
+  .ball.sm{width:27px;height:27px;font-size:11px;}
+  .zlabel{font-size:11px;color:var(--sub);min-width:40px;font-weight:700;}
+  .zrow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:8px;}
+  .gprob{margin-top:13px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sub);}
+  .gprob .pk{color:var(--txt);font-weight:700;}
 
-  /* 核心數字 */
-  .hero{text-align:center;padding:8px 0 2px;}
-  .hero .big{font-size:42px;font-weight:800;color:var(--accent);line-height:1.05;letter-spacing:1px;}
-  .hero .biglbl{font-size:13px;color:var(--sub);margin-top:4px;}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;}
-  .stat{background:var(--card2);border-radius:12px;padding:14px 10px;text-align:center;}
-  .stat .n{font-size:20px;font-weight:700;}
-  .stat .n.ok{color:var(--ok);} .stat .n.gold{color:var(--accent);} .stat .n.blue{color:var(--blue);}
-  .stat .l{font-size:11px;color:var(--sub);margin-top:4px;}
-
-  /* 機率表 */
+  /* 機率+獎金表 */
   table{width:100%;border-collapse:collapse;font-size:14px;}
-  th,td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line);}
+  th,td{padding:11px 8px;text-align:left;border-bottom:1px solid var(--line);}
   th{color:var(--sub);font-size:12px;font-weight:600;}
   td.r,th.r{text-align:right;font-variant-numeric:tabular-nums;}
+  td.amt{text-align:right;font-weight:700;color:var(--ok);font-variant-numeric:tabular-nums;}
   tr.jackpot td{color:var(--accent);font-weight:700;}
+  tr.jackpot td.amt{color:var(--accent);}
   tr.anyprize td{color:var(--ok);font-weight:700;border-top:2px solid var(--line);}
 
-  .proof{background:rgba(77,141,255,.08);border:1px solid rgba(77,141,255,.3);border-radius:12px;padding:14px 16px;font-size:14px;}
-  .proof b{color:var(--blue);}
-  .formula{background:#0c111c;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:#cfe0ff;margin:10px 0;text-align:center;overflow-x:auto;}
+  .hero{text-align:center;padding:6px 0 2px;}
+  .hero .big{font-size:38px;font-weight:800;color:var(--accent);line-height:1.05;}
+  .hero .biglbl{font-size:13px;color:var(--sub);margin-top:4px;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px;}
+  .stat{background:var(--card2);border-radius:12px;padding:13px 8px;text-align:center;}
+  .stat .n{font-size:17px;font-weight:700;}
+  .stat .n.blue{color:var(--blue);} .stat .n.ok{color:var(--ok);} .stat .n.gold{color:var(--accent);}
+  .stat .l{font-size:11px;color:var(--sub);margin-top:4px;}
 
-  .verify-row{display:flex;flex-wrap:wrap;gap:10px;}
-  .vchip{background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:12px;}
-  .vchip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:6px;}
+  .foot-note{font-size:12px;color:var(--sub);margin:12px 0 0;line-height:1.6;}
 
   .warn-card{background:rgba(255,92,122,.08);border:1px solid rgba(255,92,122,.3);}
   .warn-card h2{color:var(--warn);}
@@ -80,145 +85,128 @@
   .warn-list li{margin-bottom:10px;}
   .warn-list b{color:#ffb3c0;}
 
-  .src{font-size:12px;color:var(--sub);margin-top:18px;text-align:center;line-height:1.7;}
+  .src{font-size:12px;color:var(--sub);margin-top:18px;text-align:center;line-height:1.8;}
   .src a{color:var(--blue);text-decoration:none;}
-  .disclaimer{font-size:11.5px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.6;
-    border-top:1px solid var(--line);padding-top:14px;}
+  .disclaimer{font-size:11.5px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.6;border-top:1px solid var(--line);padding-top:14px;}
 
   @media (max-width:520px){
-    .hero .big{font-size:34px;}
-    .ball{width:34px;height:34px;font-size:14px;}
+    .hero .big{font-size:30px;}
+    .hero-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🎯 威力彩三組包牌 · 中獎機率評估</h1>
-  <div class="sub">三組 × 第一區 7 碼 × 第二區全包 ＝ 168 注</div>
-  <div class="date">分析基準日：2026/06/18 · 經多 AI agent 獨立驗證</div>
+  <h1>🎯 威力彩 A／B／C 三選一</h1>
+  <div class="sub">每組 = 第一區 7 碼 × 第二區全包 ＝ 56 注</div>
+  <div class="date">本期：2026/06/18 開獎 · 機率經多 AI agent 獨立驗證</div>
 </header>
 
 <div class="wrap">
 
-  <!-- 三組號碼 -->
+  <div class="notice">
+    📌 <b>三組的中獎機率完全相同</b>。A／B／C 都是「7 碼＋第二區全包＝56 注」的相同結構，
+    所以不論你選哪一組，各級中獎機率與獎金<b>一模一樣</b>。
+    威力彩每期獨立隨機，<b>選哪組純粹是分人／喜好，不會改變中獎率</b>。
+  </div>
+
+  <!-- 三組 -->
   <div class="card">
-    <h2><span class="em">🎱</span>本次包牌三組</h2>
-    <div class="group">
-      <div class="gname">A 組（56 注）</div>
-      <div class="zrow"><span class="zlabel">第一區</span>
-        <span class="ball z1">01</span><span class="ball z1">07</span><span class="ball z1">14</span>
-        <span class="ball z1">19</span><span class="ball z1">24</span><span class="ball z1">28</span><span class="ball z1">35</span>
+    <h2><span class="em">🎱</span>三組號碼（請挑一組）</h2>
+    <div class="groups">
+      <div class="group A">
+        <div class="gname">A 組</div>
+        <div class="gtix">56 注 · 投注 NT$2,800</div>
+        <div class="zrow"><span class="zlabel">第一區</span>
+          <span class="ball z1">01</span><span class="ball z1">07</span><span class="ball z1">14</span>
+          <span class="ball z1">19</span><span class="ball z1">24</span><span class="ball z1">28</span><span class="ball z1">35</span>
+        </div>
+        <div class="zrow"><span class="zlabel">第二區</span>
+          <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
+          <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
+        </div>
+        <div class="gprob">頭獎 <span class="pk">1/394,383</span> · 至少中獎 <span class="pk">73.3%</span></div>
       </div>
-      <div class="zrow"><span class="zlabel">第二區</span>
-        <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
-        <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
-        <span style="font-size:11px;color:var(--sub);">全包</span>
+
+      <div class="group B">
+        <div class="gname">B 組</div>
+        <div class="gtix">56 注 · 投注 NT$2,800</div>
+        <div class="zrow"><span class="zlabel">第一區</span>
+          <span class="ball z1">03</span><span class="ball z1">09</span><span class="ball z1">12</span>
+          <span class="ball z1">17</span><span class="ball z1">22</span><span class="ball z1">31</span><span class="ball z1">38</span>
+        </div>
+        <div class="zrow"><span class="zlabel">第二區</span>
+          <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
+          <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
+        </div>
+        <div class="gprob">頭獎 <span class="pk">1/394,383</span> · 至少中獎 <span class="pk">73.3%</span></div>
       </div>
-    </div>
-    <div class="group">
-      <div class="gname">B 組（56 注）</div>
-      <div class="zrow"><span class="zlabel">第一區</span>
-        <span class="ball z1">03</span><span class="ball z1">09</span><span class="ball z1">12</span>
-        <span class="ball z1">17</span><span class="ball z1">22</span><span class="ball z1">31</span><span class="ball z1">38</span>
-      </div>
-      <div class="zrow"><span class="zlabel">第二區</span>
-        <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
-        <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
-        <span style="font-size:11px;color:var(--sub);">全包</span>
-      </div>
-    </div>
-    <div class="group">
-      <div class="gname">C 組（56 注）</div>
-      <div class="zrow"><span class="zlabel">第一區</span>
-        <span class="ball z1">05</span><span class="ball z1">10</span><span class="ball z1">16</span>
-        <span class="ball z1">21</span><span class="ball z1">26</span><span class="ball z1">30</span><span class="ball z1">33</span>
-      </div>
-      <div class="zrow"><span class="zlabel">第二區</span>
-        <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
-        <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
-        <span style="font-size:11px;color:var(--sub);">全包</span>
+
+      <div class="group C">
+        <div class="gname">C 組</div>
+        <div class="gtix">56 注 · 投注 NT$2,800</div>
+        <div class="zrow"><span class="zlabel">第一區</span>
+          <span class="ball z1">05</span><span class="ball z1">10</span><span class="ball z1">16</span>
+          <span class="ball z1">21</span><span class="ball z1">26</span><span class="ball z1">30</span><span class="ball z1">33</span>
+        </div>
+        <div class="zrow"><span class="zlabel">第二區</span>
+          <span class="ball z2 sm">1</span><span class="ball z2 sm">2</span><span class="ball z2 sm">3</span><span class="ball z2 sm">4</span>
+          <span class="ball z2 sm">5</span><span class="ball z2 sm">6</span><span class="ball z2 sm">7</span><span class="ball z2 sm">8</span>
+        </div>
+        <div class="gprob">頭獎 <span class="pk">1/394,383</span> · 至少中獎 <span class="pk">73.3%</span></div>
       </div>
     </div>
   </div>
 
-  <!-- 核心結論 -->
+  <!-- 單組頭獎 -->
   <div class="card">
-    <h2><span class="em">🏆</span>頭獎中獎機率</h2>
+    <h2><span class="em">🏆</span>每一組的頭獎機率</h2>
     <div class="hero">
-      <div class="big">1 / 131,461</div>
-      <div class="biglbl">＝ 21 / 2,760,681 ＝ 168 / 22,085,448</div>
+      <div class="big">1 / 394,383</div>
+      <div class="biglbl">＝ 7 / 2,760,681（A、B、C 三組皆相同）</div>
     </div>
     <div class="hero-grid">
-      <div class="stat"><div class="n gold">168 注</div><div class="l">總投注注數</div></div>
-      <div class="stat"><div class="n blue">NT$8,400</div><div class="l">投注成本（×$50）</div></div>
-      <div class="stat"><div class="n ok">↑ 168 倍</div><div class="l">較單注頭獎機率</div></div>
-      <div class="stat"><div class="n">1 / 22,085,448</div><div class="l">單注頭獎機率</div></div>
+      <div class="stat"><div class="n gold">56 注</div><div class="l">每組注數</div></div>
+      <div class="stat"><div class="n blue">NT$2,800</div><div class="l">每組投注成本</div></div>
+      <div class="stat"><div class="n ok">73.3%</div><div class="l">至少中一獎</div></div>
     </div>
   </div>
 
-  <!-- 為何最佳 -->
+  <!-- 機率 + 本期獎金 -->
   <div class="card">
-    <h2><span class="em">📐</span>為什麼這是「最佳機率」</h2>
-    <div class="proof">
-      頭獎機率 ＝ <b>被涵蓋的相異 6 碼組合數 ÷ C(38,6)</b>。每組 7 碼最多貢獻 C(7,6)=<b>7</b> 個相異組合，
-      三組上限就是 <b>3 × 7 = 21</b>——分子<b>永遠不可能超過 21</b>。
-      <div class="formula">最佳頭獎機率 = 21 / C(38,6) = 21 / 2,760,681 = 1 / 131,461</div>
-      要達到上限 21，三組第一區必須<b>兩兩完全不重複</b>（本三組用 21 個相異號，已達標）。
-    </div>
-    <table style="margin-top:14px;">
-      <tr><th>三組配置</th><th class="r">頭獎機率</th></tr>
-      <tr><td>三組相異 21 碼（本方案 ✅）</td><td class="r" style="color:var(--accent);font-weight:700;">1 / 131,461</td></tr>
-      <tr><td>三組部分重疊</td><td class="r">介於兩者之間</td></tr>
-      <tr><td>三組完全相同</td><td class="r">1 / 394,383</td></tr>
-    </table>
-  </div>
-
-  <!-- 各級機率 -->
-  <div class="card">
-    <h2><span class="em">📊</span>各級「最高中獎」機率（每期）</h2>
+    <h2><span class="em">💰</span>本期各獎項：中獎機率與獎金（每組相同）</h2>
     <table>
-      <tr><th>獎項</th><th>對中方式</th><th class="r">機率</th></tr>
-      <tr class="jackpot"><td>頭獎</td><td>第一區 6＋第二區</td><td class="r">1 / 131,461</td></tr>
-      <tr><td>參獎</td><td>第一區 5＋第二區</td><td class="r">1 / 1,414</td></tr>
-      <tr><td>伍獎</td><td>第一區 4＋第二區</td><td class="r">1 / 57</td></tr>
-      <tr><td>柒獎</td><td>第一區 3＋第二區</td><td class="r">1 / 6（16.96%）</td></tr>
-      <tr><td>捌獎</td><td>第一區 2＋第二區</td><td class="r">54.92%</td></tr>
-      <tr><td>普獎</td><td>第一區 1＋第二區</td><td class="r">25.83%</td></tr>
-      <tr class="anyprize"><td>至少中任一獎</td><td>—</td><td class="r">99.55%</td></tr>
+      <tr><th>對中方式</th><th>獎項</th><th class="r">單組中獎機率</th><th class="r">本期中獎金額</th></tr>
+      <tr class="jackpot"><td>第一區6＋二區</td><td>頭獎</td><td class="r">1 / 394,383</td><td class="amt">10.5 億起 ※</td></tr>
+      <tr><td>第一區5＋二區</td><td>參獎</td><td class="r">1 / 4,241</td><td class="amt">NT$150,000</td></tr>
+      <tr><td>第一區4＋二區</td><td>伍獎</td><td class="r">1 / 170</td><td class="amt">NT$4,000</td></tr>
+      <tr><td>第一區3＋二區</td><td>柒獎</td><td class="r">1 / 18（5.70%）</td><td class="amt">NT$400</td></tr>
+      <tr><td>第一區2＋二區</td><td>捌獎</td><td class="r">23.93%</td><td class="amt">NT$200</td></tr>
+      <tr><td>第一區1＋二區</td><td>普獎</td><td class="r">43.08%</td><td class="amt">NT$100</td></tr>
+      <tr class="anyprize"><td>至少中任一獎</td><td>—</td><td class="r">73.33%</td><td class="amt">—</td></tr>
     </table>
-    <p style="font-size:12px;color:var(--sub);margin:12px 0 0;">
-      ※ 因第二區全包 8 碼，第二區必中，故每組最高獎只取決於第一區對中個數。以上為互斥的「最高中獎」機率，加總 100%。
+    <p class="foot-note">
+      ※ 頭獎為累積彩金，非固定。上一期（6/15）累積 10.5 億且未開出，本期續累積，<b>確切金額以台灣彩券官方本期公告為準</b>（頭獎保底 2 億）。<br>
+      ※ 因第二區全包 8 碼，第二區必中，故每組僅適用上表「＋第二區」獎項線；參獎以下為固定獎金。以上為互斥的「最高中獎」機率。
     </p>
-  </div>
-
-  <!-- 驗證方式 -->
-  <div class="card">
-    <h2><span class="em">🤖</span>驗證方式</h2>
-    <p style="margin:0 0 12px;font-size:14px;color:var(--sub);">
-      所有數字由程式精確計算，並透過工作流派出多個 AI agent 獨立重算交叉驗證，結果<b style="color:var(--ok);">一致無分歧</b>：
-    </p>
-    <div class="verify-row">
-      <span class="vchip"><span class="dot"></span>計算者 #1 ~ #4：一致</span>
-      <span class="vchip"><span class="dot"></span>對抗性最佳化：無法超越</span>
-      <span class="vchip"><span class="dot"></span>綜合：確認最佳</span>
-    </div>
   </div>
 
   <!-- 誠實提醒 -->
   <div class="card warn-card">
     <h2><span class="em">⚠️</span>務必理解的三件事</h2>
     <ul class="warn-list">
-      <li><b>「99.55% 中獎」會誤導</b>：其中約 81% 是捌獎／普獎這類小獎（金額很小）。頭獎仍是 1/131,461，雖比單注好 168 倍，但<b>依然極低</b>。</li>
-      <li><b>選哪些號碼不影響機率</b>：威力彩每期獨立隨機，任何相異 21 碼機率都一樣。這三組唯一的價值是「不重疊」，不是號碼本身比較會中。</li>
-      <li><b>唯一和選號有關的是「分獎」</b>：若中獎號剛好是熱門號，獎金可能要和別人均分——這是獎金問題，不是機率問題。</li>
+      <li><b>選 A／B／C 不影響中獎率</b>：三組機率完全相同。挑哪組只是分人，不是哪組比較會中。</li>
+      <li><b>「73% 中獎」會誤導</b>：其中約 9 成是捌獎（200 元）／普獎（100 元）這類小獎，常常拿回的比投注的少。頭獎仍是 1/394,383，<b>極低</b>。</li>
+      <li><b>選號不能提高機率，只影響分獎</b>：若中獎號是熱門號，獎金可能要和其他人均分——這是獎金問題，不是機率問題。</li>
     </ul>
   </div>
 
   <div class="src">
     資料來源：
-    <a href="https://www.319papago.idv.tw/lifeinfo/lottery/SuperLottery-02.html" target="_blank" rel="noopener">威力彩獎項機率（319papago）</a> ·
-    <a href="https://www.taiwanlottery.com.tw/superlotto638/index.asp" target="_blank" rel="noopener">台灣彩券威力彩遊戲介紹</a>
+    <a href="https://www.319papago.idv.tw/lifeinfo/lottery/SuperLottery-02.html" target="_blank" rel="noopener">威力彩獎項機率與固定獎金（319papago）</a> ·
+    <a href="https://www.taiwanlottery.com.tw/superlotto638/index.asp" target="_blank" rel="noopener">台灣彩券威力彩遊戲介紹</a><br>
+    機率由程式精確計算，並經多個 AI agent 獨立交叉驗證一致。
   </div>
 
   <div class="disclaimer">
