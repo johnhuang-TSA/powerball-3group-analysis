@@ -22,7 +22,9 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
     line-height:1.65;font-size:16px;
   }
-  .wrap{max-width:860px;margin:0 auto;padding:0 18px 70px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 18px 60px;}
+  .dash{display:grid;gap:18px;margin-top:22px;}
+  .dash > *{margin-top:0 !important;}
 
   /* 彩色漸層彩頭 */
   header{
@@ -149,6 +151,17 @@
   .disclaimer{font-size:12px;color:var(--ink2);text-align:center;margin-top:16px;line-height:1.7;
     border-top:1px solid var(--line);padding-top:16px;}
 
+  /* 桌機：多欄儀表板，填滿兩側、縮短頁面高度 */
+  @media (min-width:880px){
+    header{padding:32px 20px 26px;}
+    .dash{grid-template-columns:repeat(12,1fr);align-items:start;}
+    .s12{grid-column:span 12;}
+    .s7{grid-column:span 7;}
+    .s5{grid-column:span 5;}
+    .card{padding:20px;margin:0;}
+    .card h2{margin-bottom:14px;}
+  }
+
   @media (max-width:520px){
     body{font-size:15px;}
     header h1{font-size:23px;}
@@ -166,14 +179,15 @@
 </header>
 
 <div class="wrap">
+  <div class="dash">
 
-  <div class="notice">
+  <div class="notice s12">
     📌 A／B／C 三組都是「7 碼＋第二區全包＝56 注」的相同結構，<b>中獎機率完全相同</b>，
     挑哪一組都一樣——<b>選哪組純粹是分人／喜好，不會改變中獎結果</b>，放心挑一組就好！
   </div>
 
   <!-- 三組 -->
-  <div class="card">
+  <div class="card s12">
     <h2><span class="chip c-gold">🎱</span>三組號碼（請挑一組）</h2>
     <div class="groups">
       <div class="group A">
@@ -218,7 +232,7 @@
   </div>
 
   <!-- 本期獎金 -->
-  <div class="card">
+  <div class="card s5">
     <h2><span class="chip c-green">💰</span>本期各獎項中獎金額（每組相同）</h2>
     <table>
       <thead><tr><th>對中方式</th><th>獎項</th><th class="amt">本期中獎金額</th></tr></thead>
@@ -238,7 +252,7 @@
   </div>
 
   <!-- 73.3% 怎麼算 -->
-  <div class="card">
+  <div class="card s7">
     <h2><span class="chip c-purple">🧮</span>「至少中一獎 73.3%」是怎麼算出來的？</h2>
     <div class="step"><span class="no">1</span><div>每組<b>第二區全包 8 碼</b>，所以第二區<b>一定對中</b>。最小的「普獎」只要第一區對中 1 個號碼即可。</div></div>
     <div class="step"><span class="no">2</span><div>因此「有沒有中獎」＝「你選的 <b>7 個第一區號碼</b>，有沒有<b>至少 1 個</b>被開出來」。</div></div>
@@ -253,7 +267,7 @@
   </div>
 
   <!-- 號碼統計 -->
-  <div class="card">
+  <div class="card s7">
     <h2><span class="chip c-blue">📈</span>近十期號碼出現次數</h2>
     <div class="legend">
       <span><i class="swatch hot"></i>熱門（3～4 次）</span>
@@ -321,7 +335,7 @@
   </div>
 
   <!-- 誠實提醒 -->
-  <div class="card warn-card">
+  <div class="card warn-card s5">
     <h2><span class="chip c-rose">⚠️</span>務必理解的三件事</h2>
     <ul class="warn-list">
       <li><b>選 A／B／C 不影響中獎</b>：三組結構相同，挑哪組只是分人，不是哪組比較會中。</li>
@@ -330,18 +344,19 @@
     </ul>
   </div>
 
-  <div class="src">
+  <div class="src s12">
     資料來源：
     <a href="https://www.319papago.idv.tw/lifeinfo/lottery/SuperLottery-02.html" target="_blank" rel="noopener">威力彩獎項與固定獎金（319papago）</a> ·
     <a href="https://www.taiwanlottery.com.tw/superlotto638/index.asp" target="_blank" rel="noopener">台灣彩券威力彩遊戲介紹</a> ·
     開獎號碼整理自台灣彩券公開結果。
   </div>
 
-  <div class="disclaimer">
+  <div class="disclaimer s12">
     本頁僅為機率教學與對帳參考，不構成任何投注建議。樂透為機率遊戲，請理性購買、量力而為。<br>
     未滿 18 歲不得購買彩券。
   </div>
 
+  </div>
 </div>
 </body>
 </html>
